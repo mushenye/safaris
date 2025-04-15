@@ -1,19 +1,47 @@
 from django.db import models
+from django.template.defaultfilters import slugify
+import uuid
+
+class ParkList(models.Model):
+    park_image=models.ImageField(upload_to='park_images/')
+    name = models.CharField(max_length=200, unique=True)
+    
+    def __str__(self):
+        return self.name
 
 class Park(models.Model):
-    country = models.CharField(max_length=100)
-    name = models.CharField(max_length=200, unique=True)
+    country = models.CharField( choices= (
+        ('Kenya', 'Kenya'),
+        ('Uganda','Uganda'),
+        ('Tanzania','Tanzania'),
+    ),max_length=100)
+    name = models.ForeignKey(ParkList, on_delete=models.CASCADE,)
     location = models.CharField(max_length=255, help_text="Nearest city or coordinates")
     established_date = models.DateField(null=True, blank=True)
     size_sq_km = models.FloatField(null=True, blank=True, help_text="Size in square kilometers")
-    description = models.TextField( )
+    journey_description = models.TextField( )
     history = models.TextField()
     flora_and_fauna = models.TextField(help_text="Details about wildlife and plants seen at the park")
     climate = models.TextField(blank=True, help_text="Weather and best time to visit")
     booking_info = models.TextField(help_text="How visitors can book or contact you")
+    slug=models.SlugField(blank=True, null=True, unique=True)
+
+    def get_slug_string(self):
+        elements = [self.name.name.lower(), self.country.lower()]
+        filtered_elements = filter(None, elements)
+        return ' '.join(filtered_elements)
+    
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.get_slug_string())
+            self.slug = base_slug
+            if Park.objects.filter(slug=self.slug).exists():
+                self.slug = f'{base_slug}-{uuid.uuid4().hex[:6]}'
+        return super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.name
+        return self.name.name
     
     
 class Information(models.Model):
@@ -78,3 +106,32 @@ class Accommodation(models.Model):
     def __str__(self):
         return f"{self.name} in {self.park.name}"
 
+
+
+    
+
+class Customer (models.Model):
+    created=models.DateField(auto_now_add=True)
+    first_name= models.CharField(max_length=100)
+    middle_name= models.CharField(max_length=100, blank=True, null=True)    
+    last_name= models.CharField(max_length=100)
+    country=models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=20)
+    email=models.EmailField(unique=True)
+    facebook=models.URLField(null=True, blank= True)
+    Twitter=models.URLField(null=True, blank= True)
+    
+
+    def __str__(self):
+        middle = f" {self.middle_name.capitalize()}" if self.middle_name else ""
+        return f"{self.first_name.capitalize()}{middle} {self.last_name.capitalize()}"
+    
+
+class Booking(models.Model):
+    created=models.DateField(auto_now_add=True)
+    park = models.ForeignKey(Park, related_name='bookings', on_delete=models.CASCADE)
+    customer=models.ForeignKey(Customer, on_delete=models.CASCADE)
+    message=models.TextField()
+  
+    def __str__(self):
+        return f"{self.customer} - {self.park.name}"

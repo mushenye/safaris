@@ -1,0 +1,69 @@
+{% extends 'park_data/base.html'%}
+{% load static %}
+{% block main%}
+<div class="container my-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-success">Explore Our Parks</h2>
+    <form method="get" action="" class="d-flex">
+      <select class="form-select me-2" name="country" onchange="this.form.submit()">
+        <option value="">All Countries</option>
+        <option value="Kenya" {% if request.GET.country == 'Kenya' %}selected{% endif %}>Kenya</option>
+        <option value="Uganda" {% if request.GET.country == 'Uganda' %}selected{% endif %}>Uganda</option>
+        <option value="Tanzania" {% if request.GET.country == 'Tanzania' %}selected{% endif %}>Tanzania</option>
+      </select>
+      <button class="btn btn-outline-light d-none" type="submit">Filter</button>
+    </form>
+  </div>
+
+  <div class="row g-4">
+    {% for park in parks %}
+    <div class="col-sm-6 col-lg-3">
+      <div class="card h-100 shadow-sm border-0">
+        <div class="overflow-hidden">
+          <img src="{{ park.name.park_image.url }}" class="card-img-top img-hover rounded-top" alt="{{ park.name }}">
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title text-dark">{{ park.name }}</h5>
+          <p class="card-text text-muted small">{{ park.description|truncatewords:20 }}</p>
+          <div class="row">
+            <div class="col-md my-2">
+          <a href="{% url 'park_detail' park.slug %}" class="btn btn-sm btn-success mt-auto">Details</a>
+            
+          <a href="{% url 'customer_add' %}" class="btn btn-sm btn-warning mt-auto">Book</a>
+          
+        </div>
+    </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center text-muted">No parks available in this category.</p>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination -->
+  <div class="mt-4 d-flex justify-content-center">
+    {% if is_paginated %}
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}">Previous</a>
+            </li>
+          {% endif %}
+          {% for num in page_obj.paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+              <a class="page-link" href="?page={{ num }}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}">{{ num }}</a>
+            </li>
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}">Next</a>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}

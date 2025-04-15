@@ -1,0 +1,17 @@
+    
+{% extends "park_data/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="card shadow-lg rounded-4">
+        <div class="card-body">
+            <h3 class="card-title mb-4">Make a Booking</h3>
+
+            
+               {% crispy form %} 
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

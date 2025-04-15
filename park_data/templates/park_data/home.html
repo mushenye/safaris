@@ -1,0 +1,46 @@
+{% extends 'park_data/base.html' %}
+{% load static %}
+
+{% block main %}
+<!-- Hero Section -->
+<div class="container text-center my-5">
+  <h1 class="display-1 fw-bold text-success">
+  <img src="{% static 'assets/images/Saf.logo.png' %}" alt="Logo" width="80" height="80" class="me-2 rounded-circle" />
+  African Stem Safaris
+</h1>
+  <p class="lead text-muted">Discover the beauty and wild majesty of Africa's Big Five</p>
+  <hr class="w-25 mx-auto mt-4" />
+</div>
+
+<!-- Big Five Block -->
+<div class="container-fluid">
+  <h2 class="text-center mb-4">What to Expect</h2>
+  <div class="row justify-content-center">
+    <div class="col-sm-4 mb-4">
+      <div class="card">
+        <img class="img-fluid rounded" src="{% static 'assets/images/Lion.jpg' %}" alt="Lion" />
+      </div>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <div class="card">
+        <img class="img-fluid rounded" src="{% static 'assets/images/Elephant 1.jpg' %}" alt="Elephant" />
+      </div>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <div class="card">
+        <img class="img-fluid rounded" src="{% static 'assets/images/Rhino.jpg' %}" alt="Rhino" />
+      </div>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <div class="card">
+        <img class="img-fluid rounded" src="{% static 'assets/images/buffalo.jpg' %}" alt="Buffalo" />
+      </div>
+    </div>
+    <div class="col-sm-4 mb-4">
+      <div class="card">
+        <img class="img-fluid rounded" src="{% static 'assets/images/Leopard.jpg' %}" alt="Leopard" />
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock main %}

@@ -1,0 +1,79 @@
+{% extends "park_data/base.html" %}
+{% load static %}
+
+{% block main %}
+<div class="container-fluid mt-5">
+    <div class="card shadow rounded-4">
+        <div class="card-body">
+
+             <div class="row">
+                <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-md">
+            <h2 class="card-title mb-3">{{ park.name }}</h2>
+            <h6 class="text-muted">{{ park.country }}</h6>
+            <p><strong>Established:</strong> {{ park.established_date }}</p>
+            <p><strong>Location:</strong> {{ park.location }}</p>
+            <p><strong>Size:</strong> {{ park.size_sq_km }} km²</p>
+                    </div>
+                    <div class="col-md">
+
+            <img src="{{ park.name.park_image.url }}" class="card-img-top rounded-3" alt="Image of {{ park.name }}">
+                    </div>
+                </div>
+            <hr>
+
+           
+
+            <h4 class="mt-4">🕰️ History</h4>
+            <p>{{ park.history }}</p>
+                </div>
+                <div class="col-sm-6">
+
+            <h4 class="mt-4">📖 Description</h4>
+            <p>{{ park.journey_description }}</p>
+
+            <h4 class="mt-4">🌿 Flora & Fauna</h4>
+            <p>{{ park.flora_and_fauna }}</p>
+            <div class="card" >
+                <div class="card-body bg-warning">
+             <h4 class=" mt-4">📅 Booking Info</h4>
+            <p>{{ park.booking_info }}</p>
+            <a href="#" class="btn btn-primary btn-sm"> Book </a>
+            </div>
+            </div>
+                </div>
+            </div>
+
+            <h4 class="mt-4">🌤️ Climate</h4>
+            <p>{{ park.climate }}</p>
+
+            <h4 class="mt-4">🌟 Highlights</h4>
+            <p>{{ park.highlights }}</p>
+
+            <h4 class="mt-4">ℹ️ Important Information</h4>
+            <p>{{ park.important_information }}</p>
+
+           
+        </div>
+    </div>
+
+    {% if park.images.all %}
+    <div class="row mt-5">
+        <h4 class="mb-3">📸 Images</h4>
+        {% for image in park.images.all %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="{{ image.image.url }}" class="card-img-top rounded-3" alt="Image of {{ park.name }}">
+                {% if image.caption %}
+                <div class="card-body">
+                    <p class="card-text text-muted">{{ image.caption }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock main %}

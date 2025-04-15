@@ -1,0 +1,51 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+  <div class="container">
+    <!-- Logo + Brand -->
+    <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+      <img src="{% static 'assets/images/Saf.logo.png' %}" alt="Logo" width="40" height="40" class="me-2 rounded-circle" />
+      <span class="fw-bold fs-4">African Stem Safaris</span>
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Nav Items + Search -->
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav ms-auto me-3">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{%url 'about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'customer_add'%}">Contact us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url 'booking_add' customer_id=1 %}">Itineraries</a> <!-- Update ID logic -->
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="countryDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Destination
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="countryDropdown">
+            <li><a class="dropdown-item" href="#">Kenya</a></li>
+            <li><a class="dropdown-item" href="#">Uganda</a></li>
+            <li><a class="dropdown-item" href="#">Tanzania</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Search Form -->
+      <form class="d-flex" method="GET" action="#">
+        <input class="form-control me-2" type="search" name="q" placeholder="Search parks..." aria-label="Search">
+        <button class="btn btn-light" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
