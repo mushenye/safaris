@@ -1,9 +1,10 @@
 {% extends 'park_data/base.html'%}
 {% load static %}
 {% block main%}
-<div class="container my-5">
+<div class="container-fluid my-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="text-success">Explore Our Parks</h2>
+    <hr>
     <form method="get" action="" class="d-flex">
       <select class="form-select me-2" name="country" onchange="this.form.submit()">
         <option value="">All Countries</option>
@@ -15,29 +16,29 @@
     </form>
   </div>
 
-  <div class="row g-4">
+  <div class="row g-4 ">
+
     {% for park in parks %}
+
     <div class="col-sm-6 col-lg-3">
       <div class="card h-100 shadow-sm border-0">
+        <a href="{% url 'park_detail' park.slug %}">
         <div class="overflow-hidden">
           <img src="{{ park.name.park_image.url }}" class="card-img-top img-hover rounded-top" alt="{{ park.name }}">
         </div>
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title text-dark">{{ park.name }}</h5>
-          <p class="card-text text-muted small">{{ park.description|truncatewords:20 }}</p>
-          <div class="row">
-            <div class="col-md my-2">
-          <a href="{% url 'park_detail' park.slug %}" class="btn btn-sm btn-success mt-auto">Details</a>
-            
-          <a href="{% url 'customer_add' %}" class="btn btn-sm btn-warning mt-auto">Book</a>
-          
+    </a>
+        <div class="card-body d-flex flex-column  ">
+          <h5 class="card-title text-dark text-decoration-none">{{ park.name }}</h5>
+          <p class="card-text text-muted small text-decoration-none">{{ park.journey_description|truncatewords:20 }}</p>
         </div>
     </div>
-      </div>
     </div>
+
     {% empty %}
     <p class="text-center text-muted">No parks available in this category.</p>
+
     {% endfor %}
+
   </div>
 
   <!-- Pagination -->

@@ -1,0 +1,55 @@
+{% extends 'park_data/base.html' %}
+{% load crispy_forms_tags%} 
+{% load static %}
+
+{% block main %}
+<div class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="fw-bold text-success">Contact Us</h1>
+    <p class="lead text-muted">We'd love to hear from you. Reach out with questions, bookings, or partnerships.</p>
+  </div>
+
+  <div class="row g-4">
+    <!-- Contact Info -->
+    <div class="col-lg-5">
+      <h4 class="fw-bold">Office Address</h4>
+      <p><i class="bi bi-geo-alt-fill me-2 text-success"></i> Safari Plaza, Nairobi, Kenya</p>
+      <p><i class="bi bi-mailbox me-2 text-success"></i> P.o Box 1044 -00100 Nairobi Kenya </p>
+        <h4 class="fw-bold"> Office Phone</h4>
+        <p><i class="bi bi-telephone-forward me-2 text-success"></i> +254 725 123 123
+      <h4 class="fw-bold mt-4">Email</h4>
+      <p><i class="bi bi-envelope-fill me-2 text-success"></i> info@africansafaris.com</p>
+
+      <h4 class="fw-bold mt-4">Follow Us</h4>
+      <div class="d-flex gap-3 mt-2">
+        <a href="#" class="text-dark fs-4"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="text-dark fs-4"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="text-dark fs-4"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="text-dark fs-4"><i class="bi bi-youtube"></i></a>
+        
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+
+
+    <div class="col-lg-7">
+
+
+      {% crispy form %}
+           
+        
+    {% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-success mt-3">{{ message }}</div>
+  {% endfor %}
+{% endif %}
+  
+
+
+
+
+    </div>
+  </div>
+</div>
+{% endblock %}

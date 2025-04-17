@@ -1,11 +1,12 @@
 {% extends "park_data/base.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
 
 {% block main %}
 <div class="container mt-5">
     <div class="card shadow-lg border-0 rounded-4">
         <div class="card-body">
-            <h3 class="card-title mb-4">Welcome - please Enter your Bio data</h3>
+            <h3 class="card-title mb-4">Welcome - Please Enter your Bio data</h3>
 
             <form method="post">
               {% crispy form %}

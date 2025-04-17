@@ -1,4 +1,6 @@
+from datetime import date
 from django.db import models
+from django.utils import timezone
 from django.template.defaultfilters import slugify
 import uuid
 
@@ -113,13 +115,16 @@ class Accommodation(models.Model):
 class Customer (models.Model):
     created=models.DateField(auto_now_add=True)
     first_name= models.CharField(max_length=100)
-    middle_name= models.CharField(max_length=100, blank=True, null=True)    
+    middle_name= models.CharField(max_length=100, blank=True, null=True)  
     last_name= models.CharField(max_length=100)
+    id_or_passport= models.CharField(max_length=100, blank=True, null=True)
     country=models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
     email=models.EmailField(unique=True)
     facebook=models.URLField(null=True, blank= True)
+    instagram=models.URLField(null=True, blank= True)
     Twitter=models.URLField(null=True, blank= True)
+    
     
 
     def __str__(self):
@@ -127,11 +132,36 @@ class Customer (models.Model):
         return f"{self.first_name.capitalize()}{middle} {self.last_name.capitalize()}"
     
 
-class Booking(models.Model):
-    created=models.DateField(auto_now_add=True)
-    park = models.ForeignKey(Park, related_name='bookings', on_delete=models.CASCADE)
-    customer=models.ForeignKey(Customer, on_delete=models.CASCADE)
-    message=models.TextField()
-  
+
+class BookPark(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('confirmed', 'Confirmed'),
+        ('cancelled', 'Cancelled'),
+    ]
+
+    created = models.DateTimeField(auto_now_add=True)
+    park = models.ForeignKey('Park', related_name='bookings', on_delete=models.CASCADE)
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
+    due_date = models.DateField(blank=True, null=True)
+    message = models.TextField(blank=True, null=True)
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='pending',
+    )
+
+    class Meta:
+        ordering = ['-created']
+        verbose_name = 'Booking'
+        verbose_name_plural = 'Bookings'
+
     def __str__(self):
-        return f"{self.customer} - {self.park.name}"
+        return f'{self.customer} → {self.park.name} [{self.status.capitalize()}]'
+
+    def is_due(self):
+        return self.due_date >= timezone.now().date()
+
+
+
+

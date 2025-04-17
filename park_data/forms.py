@@ -5,7 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout,Row, Column, HTML
 from crispy_forms.bootstrap import  FormActions
 
-from park_data.models import Booking, Customer, Park ,ParkImage
+from park_data.models import BookPark, Customer, Park ,ParkImage
 
 class ParkCreateForm(forms.ModelForm):
     
@@ -101,8 +101,8 @@ class CustomerForm(forms.ModelForm):
         model = Customer
         fields = [
             'first_name', 'middle_name', 'last_name',
-            'country', 'phone_number', 'email',
-            'facebook', 'Twitter',
+            'country','id_or_passport' ,'phone_number', 'email',
+            'facebook', 'Twitter', 'instagram',
         ]
 
     def __init__(self, *args, **kwargs):
@@ -113,21 +113,24 @@ class CustomerForm(forms.ModelForm):
             HTML("<h4 class='mb-4'>👤 Personal Details</h4>"),
             Row(
                 Column('first_name', css_class='col-md-4'),
-                Column('middle_name', css_class='col-md-4'),
                 Column('last_name', css_class='col-md-4'),
+                Column('middle_name', css_class='col-md-4'),
             ),
             Row(
-                Column('country', css_class='col-md-6'),
-                Column('phone_number', css_class='col-md-6'),
+                Column('country', css_class='col-md-4'),
+                
+                Column('id_or_passport', css_class='col-md-4'),
             ),
             HTML("<h4 class='mt-4 mb-3'>📧 Contact Information</h4>"),
             Row(
                 Column('email', css_class='col-md-6'),
+                Column('phone_number', css_class='col-md-4'),
             ),
             HTML("<h4 class='mt-4 mb-3'>🌐 Social Media</h4>"),
             Row(
-                Column('facebook', css_class='col-md-6'),
-                Column('Twitter', css_class='col-md-6'),
+                Column('facebook', css_class='col-md'),
+                Column('Twitter', css_class='col-md'),
+                Column('instagram', css_class='col-md'),
             ),
             HTML(""" <div class="text-end"> """),
             Submit('submit', 'Save to continue', css_class='btn btn-success text-end mt-3'),
@@ -136,22 +139,61 @@ class CustomerForm(forms.ModelForm):
 
 class BookingForm(forms.ModelForm):
     class Meta:
-        model = Booking
-        fields = ['park', 'message']  # customer will usually be set from request.user or separately
+        model = BookPark
+        fields = ['due_date' ,'message']  # customer will usually be set from request.user or separately
+        widgets = {
+            'due_date': forms.DateInput(attrs={
+                'class': 'form-control',
+                'readonly': 'readonly',
+                'id': 'datepicker',
+            }), 
 
+        }
+        
     def __init__(self, *args, **kwargs):
         super(BookingForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
-            HTML("<h4 class='mb-4'>🦁 Park Booking Form</h4>"),
+            HTML("<div class='card p-2'> "),
             Row(
-                Column('park', css_class='col-md-6'),
+
+                 Column('due_date', css_class='col-md-6'),
             ),
             Row(
                 Column('message', css_class='col-md-12'),
             ),
             HTML(""" <div class=" text-end"> """),
-            Submit('submit', 'Book Now', css_class='btn btn-warning mt-3'),
-            HTML(""" </div>  """),
+            Submit('submit', 'Submit ', css_class='btn btn-success mt-3'),
+            HTML(""" </div></div>  """),
+        )
+
+
+
+
+# Sending Email form 
+
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    subject = forms.CharField(max_length=150)
+    message = forms.CharField(widget=forms.Textarea)
+
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.label_class = 'fw-bold'
+        self.helper.field_class = 'mb-3'
+        self.helper.layout = Layout(
+            Row(
+                Column('name', css_class='col-md-4'),
+                Column('email', css_class='col-md-6'),
+            ),
+           
+            'subject',
+            'message',
+
+            Submit('submit', 'Send Message', css_class='btn btn-success px-4')
         )
