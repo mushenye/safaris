@@ -29,7 +29,7 @@
           <a class="nav-link active" href="{% url 'park_list'%}">Parks</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="#">Itineraries</a> <!-- Update ID logic -->
+          <a class="nav-link active" href="{% url 'itineraries'%}">Itineraries</a> <!-- Update ID logic -->
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="countryDropdown" role="button" data-bs-toggle="dropdown"
@@ -45,7 +45,7 @@
       </ul>
 
       <!-- Search Form -->
-      <form class="d-flex" method="GET" action="#">
+      <form class="d-flex" method="GET" action="{% url 'park_list' %}">
         <input class="form-control me-2" type="search" name="q" placeholder="Search parks..." aria-label="Search">
         <button class="btn btn-light" type="submit">Search</button>
       </form>

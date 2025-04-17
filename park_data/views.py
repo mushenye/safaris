@@ -6,7 +6,7 @@ from django.views.generic import CreateView, DetailView
 from django.views.generic.edit import UpdateView
 from django.core.paginator import Paginator
 from park_data.forms import BookingForm, CustomerForm, ParkCreateForm
-from park_data.models import BookPark, Customer, Park
+from park_data.models import BookPark, Customer, Park, ParkList
 from django.core.mail import send_mail
 from .forms import ContactForm
 from django.contrib import messages
@@ -16,6 +16,9 @@ def index(request):
 
 def about(request):
     return render(request, 'park_data/about.html')
+
+def itineraries(request):
+    return render(request, 'park_data/itineraries.html')
 
 def custom_404(request, exception):
     return render(request, 'parK_data/not_found.html', status=404)
@@ -70,16 +73,6 @@ def customer_create(request, slug):
 
 
 
-# def booking_edit(request, pk):
-#     book_park=BookPark.objects.get( id =pk)
-#     if request.method== 'POST':
-#         form=BookingForm(request.POST,instance=book_park)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('park_list')
-#     else:
-#         form=BookingForm(instance=book_park)
-#     return render(request, 'park_data/booking_form.html', {'form':form, 'book_park':book_park})
 
 
 
@@ -128,9 +121,11 @@ class BookingUpdateView(UpdateView):
 
 def park_list_view(request):
     country = request.GET.get('country')
+    query=request.GET.get('q')
+
     parks = Park.objects.all()
-    if country:
-        parks = parks.filter(country__iexact=country)
+    if country or query:
+        parks = (parks.filter(country__iexact=country) or parks.filter(slug__icontains=query))
     
     paginator = Paginator(parks, 8)  # 8 parks per page
     page_number = request.GET.get('page')
@@ -160,7 +155,6 @@ def contact(request):
 
             full_message = f"Message from {name.capitalize()} <{email.lower()}>:\n\n{message}"
             
-            print(full_message)
             try:
                 send_mail(
                     subject,
