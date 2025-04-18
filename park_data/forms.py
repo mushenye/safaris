@@ -197,3 +197,49 @@ class ContactForm(forms.Form):
 
             Submit('submit', 'Send Message', css_class='btn btn-success px-4')
         )
+
+
+
+
+class TourCostEstimatorForm(forms.Form):
+    number_of_days = forms.IntegerField(min_value=1, label="Number of Days")
+    number_of_people = forms.IntegerField(min_value=1, label="Number of People")
+    transport_cost = forms.DecimalField(max_digits=10, decimal_places=2, label="Transport Cost (Total)")
+    accommodation_per_night = forms.DecimalField(max_digits=10, decimal_places=2, label="Accommodation Per Night (Per Person)")
+    meals_per_day = forms.DecimalField(max_digits=10, decimal_places=2, label="Meals Per Day (Per Person)")
+    park_entry_fee = forms.DecimalField(max_digits=10, decimal_places=2, label="Park Entry Fee (Per Person)")
+    guide_fee = forms.DecimalField(max_digits=10, decimal_places=2, label="Guide Fee (Total)")
+    misc = forms.DecimalField(max_digits=10, decimal_places=2, required=False, initial=0, label="Miscellaneous (Total)")
+    profit_margin = forms.DecimalField(max_digits=5, decimal_places=2, required=False, initial=15.0, label="Profit Margin (%)")
+
+    def __init__(self, *args, **kwargs):
+        super(TourCostEstimatorForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.label_class = 'fw-bold'
+        self.helper.field_class = 'mb-3'
+        self.helper.layout = Layout(
+                HTML("<h4 class='mt-4 mb-3'> 👥 Quantities </h4>"),
+
+            Row(
+                Column('number_of_days', css_class='col-md-3'),
+                Column('number_of_people', css_class='col-md-3'),
+                Column('meals_per_day', css_class='col-md-4'),
+             ),
+          HTML("<h4 class='mt-4 mb-3'> 💰 Costs </h4>"),
+
+           Row(
+               Column('transport_cost', css_class='col-md-3'),
+               Column('accommodation_per_night', css_class='col-md-3'),
+               Column('park_entry_fee', css_class='col-md-3'),
+               Column('guide_fee', css_class='col-md-3'),
+           ),
+                       HTML("<h4 class='mt-4 mb-3'> 💥 Extras </h4>"),
+
+           Row(
+                Column('misc', css_class='col-md-4'),
+                Column('profit_margin', css_class='col-md-4'),
+           ),
+            
+            Submit('submit', 'Estimate', css_class='btn btn-success px-4')
+        )

@@ -83,6 +83,20 @@ class HowToGetThere(models.Model):
     def __str__(self):
         return f"How to get to {self.park.name}"
 
+class Animal(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    main_image = models.ImageField(upload_to='animal_profiles/')
+    habitat_image1 = models.ImageField(upload_to='animal_profiles/', blank=True, null=True)
+    habitat_image2 = models.ImageField(upload_to='animal_profiles/', blank=True, null=True)
+    habitat_image3 = models.ImageField(upload_to='animal_profiles/', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+
+
 
 class EntryFee(models.Model):
     park = models.ForeignKey(Park, related_name='entry_fees', on_delete=models.CASCADE)
@@ -102,11 +116,17 @@ class Accommodation(models.Model):
     park = models.ForeignKey(Park, related_name='accommodations', on_delete=models.CASCADE)
     hotel_name = models.CharField(max_length=200)
     description = models.TextField()
+    image = models.ImageField(upload_to='park_images/' ,blank=True)
+    fee= models.DecimalField(max_digits=8, decimal_places=2, default=0.00 )
     price_per_night = models.DecimalField(max_digits=8, decimal_places=2)
+    meal_cost= models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
     contact_info = models.TextField()
 
     def __str__(self):
-        return f"{self.name} in {self.park.name}"
+        return f"{self.hotel_name} in {self.park.name}"
+
+
+
 
 
 
@@ -120,7 +140,7 @@ class Customer (models.Model):
     id_or_passport= models.CharField(max_length=100, blank=True, null=True)
     country=models.CharField(max_length=100)
     phone_number = models.CharField(max_length=20)
-    email=models.EmailField(unique=True)
+    email=models.EmailField()
     facebook=models.URLField(null=True, blank= True)
     instagram=models.URLField(null=True, blank= True)
     Twitter=models.URLField(null=True, blank= True)
@@ -163,5 +183,19 @@ class BookPark(models.Model):
         return self.due_date >= timezone.now().date()
 
 
+
+class TouringVan(models.Model):
+    park = models.ForeignKey(Park, related_name='vans', on_delete=models.CASCADE)
+    van_name = models.CharField(max_length=200)
+    van_type = models.CharField(max_length=100, choices=[('4x4', '4x4'), ('Minibus', 'Minibus'), ('SUV', 'SUV')])
+    seating_capacity = models.PositiveIntegerField()
+    availability = models.BooleanField(default=True)
+    daily_rate = models.DecimalField(max_digits=8, decimal_places=2)
+    driver_included = models.BooleanField(default=True)
+    image = models.ImageField(upload_to='van_images/', blank=True, null=True)
+    contact_info = models.TextField()
+
+    def __str__(self):
+        return f"{self.van_name} ({self.van_type}) - {self.park.name}"
 
 

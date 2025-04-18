@@ -5,8 +5,8 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView
 from django.views.generic.edit import UpdateView
 from django.core.paginator import Paginator
-from park_data.forms import BookingForm, CustomerForm, ParkCreateForm
-from park_data.models import BookPark, Customer, Park, ParkList
+from park_data.forms import BookingForm, CustomerForm, ParkCreateForm,TourCostEstimatorForm
+from park_data.models import Animal, BookPark, Customer, Park, ParkList, Accommodation
 from django.core.mail import send_mail
 from .forms import ContactForm
 from django.contrib import messages
@@ -88,17 +88,18 @@ class BookingUpdateView(UpdateView):
         customer = self.object.customer
         park = self.object.park
         due_date = self.object.due_date
-
-        # Compose email message
+        created=self.object.created
+        
         message = (
             f"Hello {customer.first_name},\n\n"
-            f"Your booking scheduled for {due_date} to tour {park.name} has been updated.\n\n"
+            f"Your booking scheduled for {due_date} to tour {park.name} has been recieved on {created}.\n Our customer service team will call you \n\n"
             f"Thank you!\n\nRegards,\nAfrica Stem Safaris"
         )
+        subject= f"RE: {customer.first_name}- Booking recieved"
 
         try:
             send_mail(
-                subject='Your Booking Has Been Updated',
+                subject=subject,
                 message=message,
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[customer.email],
@@ -160,7 +161,7 @@ def contact(request):
                     subject,
                     full_message,
                     email,
-                    ['your_email@gmail.com'], 
+                    ['mpsimani01@gmail.com'], 
                     fail_silently=False,
                 )
                 messages.success(request, 'Message sent successfully!')
@@ -171,3 +172,65 @@ def contact(request):
             
 
     return render(request, 'park_data/contact.html', {'form': form})
+
+
+
+
+def tour_cost_estimator(request):
+    total_cost = None
+    if request.method == 'POST':
+        form = TourCostEstimatorForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            num_people = data['number_of_people']
+            num_days = data['number_of_days']
+
+            # Base cost per person
+            accommodation = data['accommodation_per_night'] * num_days
+            meals = data['meals_per_day'] * num_days
+            park_fees = data['park_entry_fee']
+            
+            # Total cost before profit
+            base_total = (
+                data['transport_cost'] +
+                (accommodation + meals + park_fees) * num_people +
+                data['guide_fee'] +
+                data['misc']
+            )
+
+            # Add profit
+            margin = data['profit_margin']
+            total_cost = base_total + (base_total * margin / 100)
+
+    else:
+        form = TourCostEstimatorForm()
+
+    return render(request, 'park_data/tour_cost_estimator.html', {'form': form, 'total_cost': total_cost})
+
+
+def accommodation_list(request, park_id):
+    park = get_object_or_404(Park, id=park_id)
+    accommodations = park.accommodations.all()
+    return render(request, 'park_data/acom_list.html', {'accommodations': accommodations, 'park': park})
+
+
+def touring_vans_list(request, park_id):
+    park = get_object_or_404(Park, id=park_id)
+    vans = park.vans.all()
+    return render(request, 'park_data/touring_vans_list.html', {'vans': vans, 'park': park})
+
+
+
+def animal_detail(request, pk):
+    animal = get_object_or_404(Animal, pk=pk)
+
+    habitat=[ (animal.habitat_image1, 'Hunting Grounds'),
+             (animal.habitat_image2, 'Watering Spot'), 
+             (animal.habitat_image3, 'RestingArea') 
+             ]
+    
+    context = {
+        'animal': animal,
+        'habitat':habitat
+    }
+    return render(request, 'park_data/animal.html', context)

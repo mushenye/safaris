@@ -1,12 +1,15 @@
 from django.contrib import admin
 
-from park_data.models import Accommodation, BookPark, Park, ParkImage, ParkList
+from park_data.models import Accommodation, Animal, BookPark, Park, ParkImage, ParkList, TouringVan
 
 # Register your models here.
 admin.site.register(Park)
 admin.site.register(ParkList)
 admin.site.register(Accommodation)
 admin.site.register(ParkImage)
+admin.site.register(TouringVan)
+admin.site.register(Animal)
+
 
 
 @admin.register(BookPark)
@@ -22,4 +25,3 @@ class BookParkAdmin(admin.ModelAdmin):
         return obj.message[:50] + "..." if len(obj.message) > 50 else obj.message
     short_message.short_description = 'Message'
 
-  

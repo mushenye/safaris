@@ -17,12 +17,30 @@
             <div class="col-md">
               <img
                 src="{{ park.name.park_image.url }}"
-                class="card-img-top rounded-3"
+                class="card-img-top rounded-3 img-hover"
                 alt="Image of {{ park.name }}"
               />
             </div>
           </div>
           <div class="text-end">
+          <a
+              href="{% url 'touring_vans_list' park.id%}"
+              class="btn btn-outline-primary btn-sm mx-3"
+            >
+              Tour van
+            </a>
+             <a
+              href="{% url 'estimate_tour' %}"
+              class="btn btn-outline-primary btn-sm mx-3"
+            >
+              Estimate cost
+            </a>
+             <a
+              href="{% url 'accommodation_list' park.id %}"
+              class="btn btn-outline-primary btn-sm mx-3"
+            >
+              Accommodation
+            </a>
             <a
               href="{% url 'customer_add' park.slug %}"
               class="btn btn-outline-primary btn-sm mx-3"

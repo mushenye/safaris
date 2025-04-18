@@ -1,0 +1,24 @@
+{% extends 'park_data/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+
+    <div class="col-sm-8">
+      
+  <h2 class="mb-4">Your Cost Estimator</h2>
+  <div class="card p-2">
+        <form method="post">
+              {% crispy form %}
+            </form>
+          </div>
+  {% if total_cost %}
+    <div class="alert alert-success mt-4">
+      <h4>Total Estimated Cost: <strong>Ksh. {{ total_cost|floatformat:2 }}</strong></h4>
+    </div>
+  {% endif %}
+  </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'park_data/base.html' %}
+{% load static %}
+
+{% block main %}
+<div class="container py-5">
+  <h2 class="mb-4 text-center text-success">Available Touring Vans</h2>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for van in vans %}
+    <div class="col">
+      <div class="card h-100 shadow">
+        {% if van.image %}
+        <img src="{{ van.image.url }}" class="card-img-top img-hover" alt="{{ van.van_name }}">
+        {% else %}
+        <img src="{% static 'assets/images/default_van.jpg' %}" class="card-img-top" alt="Van Image">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title text-primary">{{ van.van_name }}</h5>
+          <p class="card-text">
+            <strong>Type:</strong> {{ van.van_type }} <br>
+            <strong>Seating Capacity:</strong> {{ van.seating_capacity }} <br>
+            <strong>Daily Rate:</strong> ${{ van.daily_rate }} <br>
+            <strong>Driver Included:</strong> {{ van.driver_included|yesno:"Yes,No" }} <br>
+            <strong>Availability:</strong> 
+            {% if van.availability %}
+              <span class="text-success">Available</span>
+            {% else %}
+              <span class="text-danger">Not Available</span>
+            {% endif %}
+          </p>
+          <p><strong>Contact:</strong> {{ van.contact_info }}</p>
+        </div>
+        <div class="card-footer text-muted">
+          Park: {{ van.park.name }}
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center">No touring vans available at the moment.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

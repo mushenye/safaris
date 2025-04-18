@@ -1,0 +1,41 @@
+{% extends 'park_data/base.html' %} {% load static %} {% block main %}
+<div class="container py-5">
+ <div class="card shadow p-2">
+  <!-- Animal Header -->
+  <div class=" row mb-4">
+     <p class="text-end"><a href="{% url 'home' %}"> <i class="bi bi-x-lg"></i> </a> </p>
+    <div class="col-md-6">
+      <img
+        src="{{ animal.main_image.url }}"
+        alt="{{ animal.name }}"
+        class="img-fluid rounded shadow"
+      />
+    </div>
+    <div class="col-md-6">
+      <h2 class="text-success">{{ animal.name }}</h2>
+      <p class="lead">{{ animal.description }}</p>
+    </div>
+  </div>
+
+  <!-- Habitat Images Section -->
+ 
+
+  <div class="mt-5">
+    <h4 class="mb-3 text-primary">In its Habitat</h4>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for img, caption in habitat %} 
+
+      {% if img %}
+      <div class="col">
+        <div class="image-overlay-container shadow-sm">
+          <img src="{{ img.url }}" alt="{{ caption }}" />
+          <div class="overlay-text">{{ caption }}</div>
+        </div>
+      </div>
+      {% endif %} 
+      {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}
