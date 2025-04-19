@@ -1,6 +1,42 @@
 {% extends 'park_data/base.html' %} {% load static %} {% block main %}
 <!-- Hero Section -->
-<div class="container text-center my-5">
+
+<div class="text-end m-1">
+  
+  <ul class="navbar-nav ms-auto me-3">
+    {%if user.is_authenticated%}
+   
+    <li class="nav-link active text-hover">
+    
+
+      <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+         Welcome : {{request.user  }}
+        <button class="btn btn-sm btn-outline-success" type="submit">
+          Log Out
+        </button>
+
+      </form>
+
+    </li>
+
+     {% else%}
+    <li class="nav-link active text-hover">
+
+     
+      <a class="btn btn-sm btn-outline-success" href="{% url 'login' %}">
+        Login</a
+      >
+   
+      <a class="btn btn-sm btn-outline-success" href="{% url 'register' %}">
+        Register</a
+      >
+    </li>
+    {% endif %}
+  </ul>
+  
+</div>
+<div class="container-fluid text-center my-5 bg-light">
   <h1 class="display-1 fw-bold text-success">
     <img
       src="{% static 'assets/images/Saf.logo.png' %}"
@@ -20,11 +56,14 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md">
-      <h2 class="text-center mb-4">What to Expect</h2>
+      <h2 class="fw-bold text-info text-center mb-4">What to Expect</h2>
     </div>
     <div class="col-md text-end">
-      <a href="{% url 'park_list' %}" class="btn btn-outline-success"
-        ><h4>View Parks <i class="bi bi-fast-forward-fill"></i></h4>
+      <a href="#" class="btn btn-sm btn-outline-warning">
+        Hotels <i class="bi bi-fast-forward-fill"></i>
+      </a>
+      <a href="{% url 'park_list' %}" class="btn btn-sm btn-outline-warning">
+        View Parks <i class="bi bi-fast-forward-fill"></i>
       </a>
     </div>
   </div>
@@ -76,6 +115,25 @@
         />
       </div>
     </div>
+    <hr />
+
+    <div class="mt-5">
+      <h4 class="mb-3 text-primary">Natural resources</h4>
+      <div class="row row-cols-2 row-cols-md-4 g-2">
+        {% for park in parks %} {% if park %}
+        <div class="col-md">
+          <div class="image-overlay-container shadow-sm">
+            <a href="{% url 'park_list'%}">
+              <img src="{{park.park_image.url }}" alt="{{ caption }}" />
+            </a>
+            <div class="overlay-text">{{ park.name }}</div>
+          </div>
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+
+    <hr />
   </div>
 </div>
 {% endblock main %}

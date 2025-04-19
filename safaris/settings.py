@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "park_data",
+    "user",
 ]
 
 MIDDLEWARE = [
@@ -129,14 +130,13 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR/'static'
 MEDIA_URL ='/media/'
 MEDIA_ROOT = BASE_DIR/'media'
-# LOGIN_REDIRECT_URL= '/'
+LOGIN_REDIRECT_URL= '/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# settings.py
 
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.gmail.com'
@@ -145,3 +145,5 @@ EMAIL_USE_TLS=True
 EMAIL_HOST_USER=config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL=EMAIL_HOST_USER
+
+AUTH_USER_MODEL= 'user.CustomUser'

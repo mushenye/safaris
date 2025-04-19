@@ -14,20 +14,31 @@
         <img src="{% static 'assets/images/default_van.jpg' %}" class="card-img-top" alt="Van Image">
         {% endif %}
         <div class="card-body">
-          <h5 class="card-title text-primary">{{ van.van_name }}</h5>
-          <p class="card-text">
+
+          <h5 class="card-title text-primary"> 🚘 {{ van.van_name }} 
+            {% if van.availability %}
+            <a href="#" class="btn btn-outline-warning btn-sm mx-5"> 🤝Book </a>
+          {% endif %}
+          </h5>
+
+          <div class="row"> 
+            <div class="col-sm">
             <strong>Type:</strong> {{ van.van_type }} <br>
             <strong>Seating Capacity:</strong> {{ van.seating_capacity }} <br>
-            <strong>Daily Rate:</strong> ${{ van.daily_rate }} <br>
-            <strong>Driver Included:</strong> {{ van.driver_included|yesno:"Yes,No" }} <br>
+            <strong>Daily Rate:</strong> Ks{{ van.daily_rate }} <br>
+          </div>
+          <div class="col-sm">
+            <strong> ꔮ Driver Included:</strong> {{ van.driver_included|yesno:"Yes,No" }} <br>
             <strong>Availability:</strong> 
             {% if van.availability %}
-              <span class="text-success">Available</span>
+              <span class="text-success"> ✅️</span>
             {% else %}
-              <span class="text-danger">Not Available</span>
+              <span class="text-danger"> ❌</span>
             {% endif %}
-          </p>
-          <p><strong>Contact:</strong> {{ van.contact_info }}</p>
+          
+          <p><i class="bi bi-telephone-inbound-fill text-success"></i><strong class="text-danger">.  {{ van.contact_info }}</strong></p>
+        </div>
+        </div>
         </div>
         <div class="card-footer text-muted">
           Park: {{ van.park.name }}

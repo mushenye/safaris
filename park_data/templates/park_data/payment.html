@@ -1,0 +1,47 @@
+{% extends 'park_data/base.html'%}
+{% load static %}
+{% block main %}
+<div class="container py-5">
+  <h2 class="text-center mb-4">Complete Your Payment</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ booking.customer_name }}'s Booking</h5>
+          <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Hotel ({{ booking.nights }} nights)</span>
+              <strong>₹{{ booking.hotel_rate|floatformat:0 }} x {{ booking.nights }} = ₹{{ booking.hotel_rate|floatformat:0|add:"0"|floatformat:0|add:booking.nights|floatformat:0 }}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Tour Van ({{ booking.van_days }} day)</span>
+              <strong>Ksh booking.park_fee{{ booking.van_rate|floatformat:0 }} x {{ booking.van_days }} = ₹{{ booking.van_rate|floatformat:0|add:"0"|floatformat:0|add:booking.van_days|floatformat:0 }}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Park Fee</span>
+              <strong>Ksh. {{ booking.park_fee|floatformat:0 }}</strong>
+            </li>
+          </ul>
+          <div class="d-flex justify-content-between mb-3">
+            <h6>Total</h6>
+            <h6><strong>Ksh. {{ booking.total_cost|floatformat:0 }}</strong></h6>
+          </div>
+
+          <form action="#" method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="paymentMethod" class="form-label">Select Payment Method</label>
+              <select name="payment_method" class="form-select" id="paymentMethod" required>
+                <option value="stripe">Credit/Debit Card</option>
+                <option value="mpesa">Mpesa</option>
+                <option value="flutterwave">Cash</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Pay Now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

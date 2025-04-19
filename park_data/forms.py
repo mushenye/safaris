@@ -5,7 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout,Row, Column, HTML
 from crispy_forms.bootstrap import  FormActions
 
-from park_data.models import BookPark, Customer, Park ,ParkImage
+from park_data.models import  Customer, Park ,ParkImage
 
 class ParkCreateForm(forms.ModelForm):
     
@@ -137,36 +137,36 @@ class CustomerForm(forms.ModelForm):
             HTML(""" </div>  """),
         )
 
-class BookingForm(forms.ModelForm):
-    class Meta:
-        model = BookPark
-        fields = ['due_date' ,'message']  # customer will usually be set from request.user or separately
-        widgets = {
-            'due_date': forms.DateInput(attrs={
-                'class': 'form-control',
-                'readonly': 'readonly',
-                'id': 'datepicker',
-            }), 
+# class BookingForm(forms.ModelForm):
+#     class Meta:
+#         model = BookPark
+#         fields = ['due_date' ,'message']  # customer will usually be set from request.user or separately
+#         widgets = {
+#             'due_date': forms.DateInput(attrs={
+#                 'class': 'form-control',
+#                 'readonly': 'readonly',
+#                 'id': 'datepicker',
+#             }), 
 
-        }
+#         }
         
-    def __init__(self, *args, **kwargs):
-        super(BookingForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.layout = Layout(
-            HTML("<div class='card p-2'> "),
-            Row(
+#     def __init__(self, *args, **kwargs):
+#         super(BookingForm, self).__init__(*args, **kwargs)
+#         self.helper = FormHelper()
+#         self.helper.form_method = 'post'
+#         self.helper.layout = Layout(
+#             HTML("<div class='card p-2'> "),
+#             Row(
 
-                 Column('due_date', css_class='col-md-6'),
-            ),
-            Row(
-                Column('message', css_class='col-md-12'),
-            ),
-            HTML(""" <div class=" text-end"> """),
-            Submit('submit', 'Submit ', css_class='btn btn-success mt-3'),
-            HTML(""" </div></div>  """),
-        )
+#                  Column('due_date', css_class='col-md-6'),
+#             ),
+#             Row(
+#                 Column('message', css_class='col-md-12'),
+#             ),
+#             HTML(""" <div class=" text-end"> """),
+#             Submit('submit', 'Submit ', css_class='btn btn-success mt-3'),
+#             HTML(""" </div></div>  """),
+#         )
 
 
 
@@ -194,8 +194,9 @@ class ContactForm(forms.Form):
            
             'subject',
             'message',
-
-            Submit('submit', 'Send Message', css_class='btn btn-success px-4')
+            HTML(""" <div class="text-end"> """),
+            Submit('submit', 'Send Message', css_class='btn btn-success px-4 '),
+            HTML(""" </div> """),
         )
 
 
