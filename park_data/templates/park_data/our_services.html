@@ -1,0 +1,151 @@
+{% extends 'park_data/base.html'%} {% load static %}
+<!--Big five Block-->
+{% block main %}
+
+<div class="container my-5">
+  <div class="container my-5">
+    <div class="row text-center mb-5">
+      <div class="col-md-7">
+        <h1 class="fw-bold text-success"> 📑 Our Services </h1>
+        <p class="lead">
+          We offer the best in travel, accommodation, and adventure. Select a
+          service
+        </p>
+      </div>
+      <div class="col-md-3">
+        <a href="{% url  'contact'%}" class="btn btn-success"> 📞 Talk to us </a>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Tour Van -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <img
+            src="{% static 'assets/images/tour van.jpeg' %}"
+            class="card-img-top"
+            height="250"
+            alt="Tour Van"
+          />
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md">
+                <h5 class="card-title">Tour van</h5>
+              </div>
+              <div class="col-md">
+                <p class="text-end">
+                  <a class="text-decoration-none" href="{% url 'touring_vans_all' %}">
+                    <span><strong> Book van </strong></span>
+                  </a>
+                </p>
+              </div>
+            </div>
+            
+            <p class="card-text">
+              Travel in comfort with our well-maintained tour vans and
+              experienced guides.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accommodation -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          <img
+            src="{% static 'assets/images/Abt-img.jpeg' %}"
+            class="card-img-top"
+            height="250"
+            alt="Accommodation"
+          />
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md">
+                <h5 class="card-title">Accommodation</h5>
+              </div>
+              <div class="col-md">
+                <p class="text-end">
+                  <a class="text-decoration-none" href="{% url 'accommodation_list_all' %}">
+                    <span><strong> Request </strong></span>
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <p class="card-text">
+              Enjoy your stay in cozy lodges, luxury tents, or eco-resorts with
+              top-notch services.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Park Visitations -->
+      <div class="col-md-4">
+        <div class="card shadow-sm">
+          
+            <img
+              src="{% static 'assets/images/istockphoto-586942490-612x612 (1).jpg' %}"
+              class="card-img-top"
+              height="250"
+              alt="Park Visitations"
+            />
+        
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md">
+                <h5 class="card-title">Park Visitations</h5>
+              </div>
+              <div class="col-md">
+                <p class="text-end">
+                  <a class="text-decoration-none" href="{% url 'park_list' %}">
+                    <span><strong> View Parks 🐘 </strong></span>
+                  </a>
+                </p>
+              </div>
+            </div>
+            <p class="card-text">
+              Discover the wonders of nature with guided tours in stunning
+              national parks.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="container my-5">
+      <h2 class="text-center mb-4">What Our Customers Say</h2>
+
+      {% if compliments %}
+      <div class="row g-4">
+        {% for compliment in compliments %}
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm h-100">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md">
+                  <h5 class="card-title">👮🏼 {{ compliment.name }}</h5>
+                </div>
+                <div class="col-md">
+                  <h6 class="card-subtitle text-muted mb-2">
+                    🗓 {{ compliment.created_at }}
+                  </h6>
+                </div>
+              </div>
+              <p class="card-text">💬 Message: {{ compliment.message }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="text-center">
+        No compliments yet. Be the first to say something nice!
+      </p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% endblock%}
+</div>

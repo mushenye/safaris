@@ -38,21 +38,21 @@ class RegistrationForm(UserCreationForm):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.layout = Layout(
-            HTML("<b class='text-dark'> Personal Details</b><hr>"),
+            HTML("<b class='text-dark'>🙎‍♀️ Personal Details</b><hr>"),
             Row(
                 Column('username'),
                 Column('email'),
             ),
-            HTML("<b class='text-dark'> Enter your password - Must Contain (@ # $ % & ?)</b><hr>"),
+            HTML("<b class='text-dark'> 🚷 Your password Must Contain (@ YT a! m # $ % & ?)</b><hr>"),
             Row(
                 Column('password1'),
                 Column('password2'),
             ),
             HTML("<hr>"),
             FormActions(
-                
-                Submit('save', 'Save', css_class='mx-4 px-4 btn btn-sm btn-success'),
-                Submit('cancel', 'Cancel', css_class='mx-4 px-4 btn btn-sm btn-warning'),
+                HTML("<div class='text-end'>"),
+                Submit('save', ' Submit', css_class='mx-4 px-4 text-end btn btn-sm btn-success'),
+                HTML("</div>"),
             )
         )
 

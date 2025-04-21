@@ -5,7 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout,Row, Column, HTML
 from crispy_forms.bootstrap import  FormActions
 
-from park_data.models import  Customer, Park ,ParkImage
+from park_data.models import  Customer, Park ,ParkImage,Compliment
 
 class ParkCreateForm(forms.ModelForm):
     
@@ -244,3 +244,18 @@ class TourCostEstimatorForm(forms.Form):
             
             Submit('submit', 'Estimate', css_class='btn btn-success px-4')
         )
+
+
+
+
+
+
+
+class ComplimentForm(forms.ModelForm):
+    class Meta:
+        model = Compliment
+        fields = ['name', 'message']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your name'}),
+            'message': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Write your compliment...'}),
+        }

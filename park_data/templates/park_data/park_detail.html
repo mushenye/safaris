@@ -1,10 +1,8 @@
-{% extends "park_data/base.html" %} 
-{% load static %} 
-{% block main %}
+{% extends "park_data/base.html" %} {% load static %} {% block main %}
 <div class="container mt-5">
   <div class="card shadow rounded-4">
     <div class="card-body">
-      <div class="row">
+      <div class="row ">
         <div class="col-sm-6">
           <div class="row">
             <div class="col-md">
@@ -14,7 +12,7 @@
               <p><strong>Location:</strong> {{ park.location }}</p>
               <p><strong>Size:</strong> {{ park.size_sq_km }} km²</p>
             </div>
-            <div class="col-md">
+            <div class="col-md ">
               <img
                 src="{{ park.name.park_image.url }}"
                 class="card-img-top rounded-3 img-hover"
@@ -22,37 +20,50 @@
               />
             </div>
           </div>
-          <div class="text-end">
-          <a
-              href="{% url 'touring_vans_list' park.id%}"
-              class="btn btn-outline-primary btn-sm mx-3"
-            >
-              Tour van
-            </a>
-             <a
-              href="{% url 'estimate_tour' %}"
-              class="btn btn-outline-primary btn-sm mx-3"
-            >
-              Estimate cost
-            </a>
-             <a
-              href="{% url 'accommodation_list' park.id %}"
-              class="btn btn-outline-primary btn-sm mx-3"
-            >
-              Accommodation
-            </a>
-            <a
-              href="{% url 'add_park' park.slug %}"
-              class="btn btn-outline-primary btn-sm mx-3"
-            >
-              Tour with us
-            </a>
+
+          <div class="row row-cols-2 row-cols-md-4 g-1 my-1">
+           
+            <div clas="col-sm-3">
+              <a
+                href="{% url 'estimate_tour' %}"
+                class="btn btn-outline-primary btn-sm mx-3"
+              >
+               💵 Estimate
+              </a>
+
+            </div>
+
+             <div clas="col-sm-3">
+              <a
+                href="{% url 'touring_vans_list' park.id%}"
+                class="btn btn-outline-primary btn-sm mx-3"
+              >
+                 🚔 Tour van
+              </a>
+            </div>
+            <div clas="col-sm-3">
+              <a
+                href="{% url 'accommodation_list' park.id %}"
+                class="btn btn-outline-primary btn-sm mx-3"
+              >
+               🏣 Hotels
+              </a>
+            </div>
+            <div clas="col-sm-3">
+              <a
+                href="{% url 'add_park' park.slug %}"
+                class="btn btn-danger btn-sm mx-3"
+              >
+               😆Let's Tour
+              </a>
+            </div>
           </div>
           <hr />
 
           <h4 class="mt-4">🕰️ History</h4>
           <p>{{ park.history }}</p>
         </div>
+
         <div class="col-sm-6">
           <h4 class="mt-4">📖 Description</h4>
           <p>{{ park.journey_description }}</p>

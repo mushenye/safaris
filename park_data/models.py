@@ -241,3 +241,12 @@ class Catalog(models.Model):
             total += self.park.entry_fee
         return total
 
+
+class Compliment(models.Model):
+    name = models.CharField(max_length=100)
+    message = models.TextField()
+    repy=models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Compliment from {self.name}"

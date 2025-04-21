@@ -1,0 +1,70 @@
+{% extends 'park_data/base.html'%} {% load static %} {% block main%}
+
+
+
+
+<div class="container mt-5">
+  <div class="card shadow-lg">
+    <div class="row g-0">
+      {% if accommodation.image %}
+      <div class="col-md-5">
+        <img src="{{ accommodation.image.url }}" class="img-fluid rounded-start" alt="{{ accommodation.hotel_name }}">
+      </div>
+      {% endif %}
+      <div class="col-md-7">
+        <div class="card-body">
+          <h3 class="card-title">{{ accommodation.hotel_name }}</h3>
+          <h6 class="text-muted">Located in: {{ accommodation.park.name }}</h6>
+          <p class="card-text mt-3">{{ accommodation.description }}</p>
+
+          <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item"><strong>Price per Night:</strong> ${{ accommodation.price_per_night }}</li>
+            <li class="list-group-item"><strong>Meal Cost:</strong> ${{ accommodation.meal_cost }}</li>
+            <li class="list-group-item"><strong>Park Fee:</strong> ${{ accommodation.fee }}</li>
+          </ul>
+
+          <p><strong>Contact Info:</strong></p>
+          <p class="text-muted">{{ accommodation.contact_info }}</p>
+
+          <a href="#" class="btn btn-primary mt-2">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% comment %} <div class="container py-5">
+  <div class="card shadow-lg rounded-4">
+    {% if accommodation.image %}
+    <img
+      src="{{ accommodation.image.url }}"
+      class="card-img-top rounded-top-4"
+      height="300"
+      width="300"
+      alt="{{ accommodation.name }}"
+    />
+    {% endif %}
+    <div class="card-body">
+      <h2 class="card-title">{{ accommodation.hotel_name }}</h2>
+      <p class="card-text text-muted">
+        <i class="bi bi-geo-alt-fill"></i> {{ accommodation.location }}
+      </p>
+      <p class="card-text">{{ accommodation.description }}</p>
+      <ul class="list-group list-group-flush my-3">
+        <li class="list-group-item">
+          <strong>Price per Night:</strong> ${{ accommodation.price_per_night }}
+        </li>
+        <li class="list-group-item">
+          <strong>Available Rooms:</strong> {{ accommodation.available_rooms }}
+        </li>
+        <li class="list-group-item">
+          <strong>Facilities:</strong> {{ accommodation.facilities }}
+        </li>
+      </ul>
+      <a href="#" class="btn btn-primary">Book Now</a>
+    </div>
+  </div>
+</div> {% endcomment %}
+
+{% endblock%}

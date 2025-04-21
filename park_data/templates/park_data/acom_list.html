@@ -1,20 +1,22 @@
 {% extends 'park_data/base.html' %} {% load static %} {% block main %}
 <div class="container py-5">
-  <h2 class="mb-4 text-center text-success">Park Accommodations</h2>
+  <h2 class="mb-4 text-center text-success"> 🏨 Accommodations</h2>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     {% for accommodation in accommodations %}
     <div class="col">
       <div class="card h-100 shadow-sm">
         {% if accommodation.image %}
+      <a href= "{% url 'accommodation_details' accommodation.id %}" >
         <img
           src="{{ accommodation.image.url }}"
           class="card-img-top"
           alt="{{ accommodation.hotel_name }}"
-        />
+        /> 
+      </a>
         {% else %}
         <img
           src="{% static 'assets/images/default_hotel.jpg' %}"
-          class="card-img-top img-hover"
+          class="card-img-top img-hover" height="200"
           alt="No image available"
         />
         {% endif %}

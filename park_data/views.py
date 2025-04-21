@@ -12,7 +12,8 @@ from .forms import ContactForm
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.views import redirect_to_login
-
+from .models import Compliment
+from .forms import ComplimentForm
 
 
 
@@ -23,7 +24,18 @@ def index(request):
 
 
 
+
+def our_services(request):
+    compliments = Compliment.objects.order_by('created_at')[:10]
+    return render(request, 'park_data/our_services.html', context={'compliments': compliments})
+
+
+
+
 def about(request):
+    return render(request, 'park_data/aboutpage.html')
+
+def more_about(request):
     return render(request, 'park_data/about.html')
 
 def itineraries(request):
@@ -31,6 +43,21 @@ def itineraries(request):
 
 def custom_404(request, exception):
     return render(request, 'parK_data/not_found.html', status=404)
+
+
+
+def compliment_view(request):
+    if request.method == 'POST':
+        form = ComplimentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('compliment')
+    else:
+        form = ComplimentForm()
+    
+    compliments = Compliment.objects.order_by('-created_at')
+
+    return render(request, 'complement.html', {'form': form, 'compliments': compliments})
 
 
 class Park_create(CreateView):
@@ -120,12 +147,15 @@ def customer_create(request):
 
 def park_list_view(request):
     country = request.GET.get('country')
-    query=request.GET.get('q')
+    query = request.GET.get('q')
 
     parks = Park.objects.all()
-    if country or query:
-        parks = (parks.filter(country__iexact=country) or parks.filter(slug__icontains=query))
-    
+
+    if country:
+        parks = parks.filter(country__iexact=country.strip())
+    elif query:
+        parks = parks.filter(slug__icontains=query.strip())
+
     paginator = Paginator(parks, 8)  # 8 parks per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -162,6 +192,9 @@ def contact(request):
                     ['mpsimani01@gmail.com'], 
                     fail_silently=False,
                 )
+
+                Compliment.objects.create(name=name, message=message)
+
                 messages.success(request, 'Message sent successfully!')
                 return redirect('contact')
             except:
@@ -215,12 +248,28 @@ def accommodation_list(request, park_id):
 
 
 
+def accommodation_list_all(request):
+    
+    accommodations = Accommodation.objects.all()
+
+    return render(request, 'park_data/acom_list.html', {'accommodations': accommodations,})
+
+
+def accommodation_details(request, pk):
+    accommodation = Accommodation.objects.get(id=pk)
+    return render(request, 'park_data/accom_details.html', {'accommodation': accommodation,})
+
 
 
 def touring_vans_list(request, park_id):
     park = get_object_or_404(Park, id=park_id)
     vans = park.vans.all()
     return render(request, 'park_data/touring_vans_list.html', {'vans': vans, 'park': park})
+
+
+def touring_van_all(request):
+    vans=TouringVan.objects.all()
+    return render(request, 'park_data/touring_vans_list.html', {'vans': vans,})
 
 
 
@@ -303,6 +352,7 @@ def add_touring_van(request, pk):
     return redirect_to_login(next=request.get_full_path())
 
 
+
 def add_park(request, slug):
     if request.user.is_authenticated:
 
@@ -318,6 +368,8 @@ def add_park(request, slug):
         return redirect('customer_add')
     
     return redirect_to_login(next=request.get_full_path())
+
+
 
 
 
