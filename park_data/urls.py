@@ -39,10 +39,13 @@ urlpatterns = [
 
     path('payment/<int:booking_id>/', views.payment_page, name='payment_page'),
     path('payment/process/<int:booking_id>/', views.process_payment, name='process_payment'),
-    path('payment/touring_van/', views.add_touring_van, name='add_touring_van'),
+    path('payment/touring_van/<int:pk>', views.add_touring_van, name='add_touring_van'),
     path('payment/accomodation/', views.add_accommodation, name='add_accommodation'),
     path('payment/add_park/<slug:slug>/', views.add_park, name='add_park'),
     path('payment/view_cart/', views.view_cart, name='view_cart'),
+    path('payment/process/', views.process_payment, name='process_payment'),
+
+    path('payment/success/', views.payment_success, name='payment_success'),
 
 
 
@@ -51,6 +54,6 @@ urlpatterns = [
 
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-admin.site.site_header= "Afican Stem Safaris"
+admin.site.site_header= "African Stem Safaris"
 admin.site.site_title= "Africa Stem Safaris"
 admin.site.site_index_title = "welcome to Africa Stem Safaris"

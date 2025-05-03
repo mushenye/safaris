@@ -2,41 +2,32 @@
 <!-- Hero Section -->
 
 <div class="text-end m-1">
-  
   <ul class="navbar-nav ms-auto me-3">
     {%if user.is_authenticated%}
-   
-    <li class="nav-link active text-hover">
-    
 
+    <li class="nav-link active text-hover">
       <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-         Welcome : {{request.user.username  }}
+        {% csrf_token %} Welcome : {{request.user.username }}
         <button class="btn btn-sm btn-outline-success" type="submit">
           Log Out
         </button>
-
       </form>
-
     </li>
 
-     {% else%}
+    {% else%}
     <li class="nav-link active text-hover">
-
-     
       <a class="btn btn-sm btn-outline-success" href="{% url 'login' %}">
         Login</a
       >
-   
+
       <a class="btn btn-sm btn-outline-success" href="{% url 'register' %}">
         Register</a
       >
     </li>
     {% endif %}
   </ul>
-  
 </div>
-<div class=" container-fluid text-center my-5 bg-light">
+<div class="container-fluid text-center my-5 bg-light">
   <h1 class="display-1 fw-bold text-success">
     <img
       src="{% static 'assets/images/Saf.logo.png' %}"
@@ -56,17 +47,26 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md">
-      <h2 class="fw-bold text-info text-center mb-4">What to Expect ‼ </h2>
+      <h2 class="fw-bold text-info text-center mb-4">What to Expect ‼</h2>
     </div>
     <div class="col-md text-end">
-      <a href="{% url 'touring_vans_all'%}" class="btn btn-sm text-success btn-outline-warning">
-         🚔 Tour van </i>
+      <a
+        href="{% url 'touring_vans_all'%}"
+        class="btn btn-sm text-success btn-outline-warning"
+      >
+        🚔 Tour van
       </a>
-      <a href="{% url 'accommodation_list_all'%}" class="btn btn-sm text-success btn-outline-warning">
-         🏨 Hotels </i>
+      <a
+        href="{% url 'accommodation_list_all'%}"
+        class="btn btn-sm text-success btn-outline-warning"
+      >
+        🏨 Hotels
       </a>
-      <a href="{% url 'park_list' %}" class="btn btn-sm text-success btn-outline-warning">
-        🐘 View Parks </i>
+      <a
+        href="{% url 'park_list' %}"
+        class="btn btn-sm text-success btn-outline-warning"
+      >
+        🐘 View Parks
       </a>
     </div>
   </div>
@@ -84,38 +84,47 @@
     </div>
     <div class="col-sm-4 mb-4">
       <div class="card">
-        <img
-          class="img-fluid rounded img-hover"
-          src="{% static 'assets/images/Elephant 1.jpg' %}"
-          alt="Elephant"
-        />
+        <a href="{% url 'animal' 2 %}">
+          <img
+            class="img-fluid rounded img-hover"
+            src="{% static 'assets/images/Elephant 1.jpg' %}"
+            alt="Elephant"
+          />
+        </a>
       </div>
     </div>
     <div class="col-sm-4 mb-4">
       <div class="card">
-        <img
-          class="img-fluid rounded img-hover"
-          src="{% static 'assets/images/Rhino.jpg' %}"
-          alt="Rhino"
-        />
+        <a href="{% url 'animal' 3 %}">
+          <img
+            class="img-fluid rounded img-hover"
+            src="{% static 'assets/images/Rhino.jpg' %}"
+            alt="Rhino"
+          />
+        </a>
       </div>
     </div>
     <div class="col-sm-4 mb-4">
+          <a href="{% url 'animal' 4 %}">
+
       <div class="card">
-        <img
-          class="img-fluid rounded img-hover"
-          src="{% static 'assets/images/buffalo.jpg' %}"
-          alt="Buffalo"
-        />
+          <img
+            class="img-fluid rounded img-hover"
+            src="{% static 'assets/images/buffalo.jpg' %}"
+            alt="Buffalo"
+          />
       </div>
+    </a>
     </div>
     <div class="col-sm-4 mb-4">
       <div class="card">
-        <img
-          class="img-fluid rounded img-hover"
-          src="{% static 'assets/images/Leopard.jpg' %}"
-          alt="Leopard"
-        />
+        <a href="{% url 'animal' 5 %}">
+          <img
+            class="img-fluid rounded img-hover"
+            src="{% static 'assets/images/Leopard.jpg' %}"
+            alt="Leopard"
+          />
+        </a>
       </div>
     </div>
     <hr />

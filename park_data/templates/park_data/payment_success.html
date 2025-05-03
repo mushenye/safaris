@@ -1,5 +1,41 @@
-
-<div class="container py-5 text-center">
-  <h2 class="text-success">✅ Payment Successful!</h2>
-  <p>Your booking has been confirmed.</p>
+  {% extends 'park_data/base.html' %} 
+  {% load static %} 
+  {% block main %}
+<div class=" container-fluid text-center my-5 bg-light">
+  <h1 class="display-1 fw-bold text-success">
+    <img
+      src="{% static 'assets/images/Saf.logo.png' %}"
+      alt="Logo"
+      width="80"
+      height="80"
+      class="me-2 rounded-circle"
+    />
+    African Stem Safaris
+  </h1>
+  <p class="lead text-muted">
+    Discover the beauty and wild majesty of Africa's Big Five
+  </p>
+  <hr class="w-25 mx-auto mt-4" />
 </div>
+  <div class="container text-center">
+    <div class="card shadow-lg p-4 rounded-4 mx-auto" style="max-width: 500px;">
+      <div class="card-body">
+        <div class="mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+            <path d="M16 8a8 8 0 1 1-16 0A8 8 0 0 1 16 8zM6.97 10.03a.75.75 0 0 0 1.07 0l3.992-3.992a.75.75 0 0 0-1.06-1.06L7.5 8.44 5.53 6.47a.75.75 0 0 0-1.06 1.06l2.5 2.5z"/>
+          </svg>
+        </div>
+        <h2 class="card-title">Payment Successful</h2>
+        <p class="card-text">Thank you! Your payment has been processed successfully.</p>
+        <a href="{% url 'home' %}" class="btn btn-success mt-3">Back to Home</a>
+      </div>
+    </div>
+      {% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{message.tags}} mt-3">
+     <h4 class="text-center"> {{ message }} </h6>
+    </div>
+  {% endfor %}
+{% endif %}
+  </div>
+{% endblock%}

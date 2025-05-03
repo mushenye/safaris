@@ -1,25 +1,27 @@
-  .hero {
-            background: url("{% static 'assets/images/water goose.jpeg' %}") no-repeat center center;
-            background-size: cover;
-            height: 400px;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-  .hero h1 {
-            font-size: 3rem;
-            background-color: rgba(0,0,0,0.6);
-            padding: 1rem 2rem;
-            border-radius: 10px;
-        }
-  .value-icon {
-            font-size: 2rem;
-            color: #0d6efd;
-        }
+body {
+  background-color: rgb(197, 220, 197);
+}
 
-
-
+.hero {
+  background: url("{% static 'assets/images/water goose.jpeg' %}") no-repeat
+    center center;
+  background-size: cover;
+  height: 400px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero h1 {
+  font-size: 3rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+}
+.value-icon {
+  font-size: 2rem;
+  color: #0d6efd;
+}
 
 .img-hover {
   transition: transform 0.4s ease;
@@ -36,37 +38,34 @@
 }
 
 .image-overlay-container {
-      position: relative;
-      overflow: hidden;
-      border-radius: 10px;
-    }
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
 
-    .image-overlay-container img {
-      width: 100%;
-      height: auto;
-      display: block;
-      transition: transform 0.4s ease;
-    }
+.image-overlay-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.4s ease;
+}
 
-    .image-overlay-container:hover img {
-      transform: scale(1.05);
-    }
+.image-overlay-container:hover img {
+  transform: scale(1.05);
+}
 
-    .overlay-text {
-      position: absolute;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.55);
-      color: #fff;
-      width: 100%;
-      text-align: center;
-      padding: 0.5rem;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
+.overlay-text {
+  position: absolute;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  padding: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
 
-    .image-overlay-container:hover .overlay-text {
-      opacity: 1;
-    }
-
-
-  
+.image-overlay-container:hover .overlay-text {
+  opacity: 1;
+}

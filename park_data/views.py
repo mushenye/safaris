@@ -1,4 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse, reverse_lazy
@@ -76,7 +78,7 @@ class ParkDetailView(DetailView):
 
 
 
-  
+
 def customer_create(request):  
     user = request.user
 
@@ -91,13 +93,11 @@ def customer_create(request):
             customer = form.save(commit=False)
             customer.person = user
             customer.save()
-
-            return redirect('view_cart')
+            return redirect(request.GET.get('next') or 'home')
     else:
         form = CustomerForm(initial=initial_data)
 
     return render(request, 'park_data/customer_form.html', {'form': form})
-
 
 
 
@@ -189,7 +189,7 @@ def contact(request):
                     subject,
                     full_message,
                     email,
-                    ['mpsimani01@gmail.com'], 
+                    ['wmumanyi@gmail.com'], 
                     fail_silently=False,
                 )
 
@@ -274,7 +274,10 @@ def touring_van_all(request):
 
 
 def animal_detail(request, pk):
-    animal = get_object_or_404(Animal, pk=pk)
+    try:
+        animal = Animal.objects.get(pk=pk)
+    except Animal.DoesNotExist:
+        return render(request, 'park_data/not_found.html')
 
     habitat=[ (animal.habitat_image1, 'Hunting Grounds'),
              (animal.habitat_image2, 'Watering Spot'), 
@@ -286,6 +289,12 @@ def animal_detail(request, pk):
         'habitat':habitat
     }
     return render(request, 'park_data/animal.html', context)
+
+
+def bookvan(request, id):
+
+    return render(request, )
+
 
 
 
@@ -374,24 +383,51 @@ def add_park(request, slug):
 
 
 def view_cart(request):
-    catalog = customer_catalog(request.user)
-    # total = catalog.total_price()
-    return render(request, 'park_data/cat.html', {
-        'catalog': catalog,
-    })
 
+    catalog = customer_catalog(request.user)
+
+    return render(request, 'park_data/cat.html', {
+            'catalog': catalog,
+        })
+
+    
 
 @csrf_exempt
-def process_payment(request, booking_id):
-    booking = get_object_or_404(TourBooking, id=booking_id)
+def process_payment(request):
+    catalog = customer_catalog(request.user)
 
-    if request.method == 'POST':
-        payment_method = request.POST.get('payment_method')
+    if request.method == 'GET':
+        # payment_method = request.POST.get('payment_method')
 
-        # Here: integrate Stripe / Flutterwave / Mpesa
+        # Here: integrate Mpesa
         # For now, we'll assume it succeeds
-        booking.is_paid = True
-        booking.save()
+        Catalog.is_paid = True
+        catalog.save()
+        message = (
+            f"Hello {catalog.customer.first_name},\n\n"
+            f"Your payment for {catalog.id} placed on  {catalog.date_created} has been recieved.\n Our customer service team will call you \n\n"
+            f"Thank you!\n\nRegards,\nAfrica Stem Safaris"
+        )
+        subject= f"RE: {catalog.customer.first_name}- recieved"
+
+        try:
+            send_mail(
+                subject=subject,
+                message=message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[catalog.customer.email],
+                fail_silently=False,
+            )
+            messages.success(request, " Your request updated and email sent successfully!")
+        except Exception as e:
+            messages.warning(request, f"Request updated but email failed to send : {e}")
+
+        
+        
         return HttpResponseRedirect(reverse('payment_success'))
 
-    return redirect('payment_page', booking_id=booking.id)
+    return redirect('view_cart')
+
+
+def payment_success(request):
+    return render(request, 'park_data/payment_success.html')
